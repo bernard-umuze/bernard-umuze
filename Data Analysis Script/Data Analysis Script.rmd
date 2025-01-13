@@ -1,0 +1,107 @@
+# Set working directory (adjust path as needed)
+setwd("path/to/your/cyclistic_bike_share/scripts/")
+
+# Load necessary libraries
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+
+# Load the cleaned data
+bike_data <- read_csv("data/cyclistic_bike_share_clean.csv")
+
+# 1. Exploratory Data Analysis (EDA)
+
+# Summary statistics
+summary(bike_data) 
+
+# Summary statistics for ride_length
+summary(bike_data$ride_length) 
+
+# 2. Key Metrics
+
+# Total rides by member type
+total_rides <- bike_data %>%
+  group_by(member_casual) %>%
+  summarize(total_rides = n()) 
+
+# Average ride length by member type
+avg_ride_length_member <- bike_data %>%
+  group_by(member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length))
+
+# Median ride length by member type
+median_ride_length <- bike_data %>%
+  group_by(member_casual) %>%
+  summarize(median_ride_length = median(ride_length))
+
+# Print key metrics
+cat("Total Rides:\n")
+print(total_rides)
+cat("\nAverage Ride Length:\n")
+print(avg_ride_length_member)
+cat("\nMedian Ride Length:\n")
+print(median_ride_length)
+
+# 3. User Behavior Analysis
+
+# Ride frequency by day of the week
+ride_freq_day <- bike_data %>%
+  group_by(day_of_week, member_casual) %>%
+  summarize(total_rides = n()) %>%
+  ungroup() %>%
+  mutate(day_of_week = factor(day_of_week, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))) 
+
+# Ride frequency by month
+ride_freq_month <- bike_data %>%
+  group_by(month, member_casual) %>%
+  summarize(total_rides = n()) %>%
+  ungroup() %>%
+  mutate(month = factor(month, levels = month.abb)) 
+
+# Average ride length by day of the week
+avg_ride_length_day <- bike_data %>%
+  group_by(day_of_week, member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length)) %>%
+  ungroup() %>%
+  mutate(day_of_week = factor(day_of_week, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))
+
+# Average ride length by month
+avg_ride_length_month <- bike_data %>%
+  group_by(month, member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length)) %>%
+  ungroup() %>%
+  mutate(month = factor(month, levels = month.abb))
+
+# 4. Visualizations
+
+# Total rides by day of the week
+ggplot(ride_freq_day, aes(x = day_of_week, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Total Rides by Day of the Week",
+       x = "Day of the Week",
+       y = "Total Rides") +
+  theme_minimal()
+
+# Total rides by month
+ggplot(ride_freq_month, aes(x = month, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Total Rides by Month",
+       x = "Month",
+       y = "Total Rides") +
+  theme_minimal()
+
+# Average ride length by day of the week
+ggplot(avg_ride_length_day, aes(x = day_of_week, y = avg_ride_length, color = member_casual, group = member_casual)) +
+  geom_line() +
+  labs(title = "Average Ride Length by Day of the Week",
+       x = "Day of the Week",
+       y = "Average Ride Length (seconds)") +
+  theme_minimal()
+
+# Average ride length by month
+ggplot(avg_ride_length_month, aes(x = month, y = avg_ride_length, color = member_casual, group = member_casual)) +
+  geom_line() +
+  labs(title = "Average Ride Length by Month",
+       x = "Month",
+       y = "Average Ride Length (seconds)") +
+  theme_minimal()

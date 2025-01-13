@@ -1,0 +1,109 @@
+# Set working directory (adjust path as needed)
+setwd("path/to/your/cyclistic_bike_share/scripts/")
+
+# Load necessary libraries
+library(tidyverse)
+library(lubridate)
+
+# Load the cleaned data
+bike_data <- read_csv("data/cyclistic_bike_share_clean.csv")
+
+# 1. Data Preparation for Visualization
+
+# Calculate total rides by member type
+total_rides_by_member <- bike_data %>%
+  group_by(member_casual) %>%
+  summarize(total_rides = n()) 
+
+# Calculate average ride length by member type
+avg_ride_length_by_member <- bike_data %>%
+  group_by(member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length))
+
+# Calculate ride frequency by day of the week and member type
+ride_freq_by_day <- bike_data %>%
+  group_by(day_of_week, member_casual) %>%
+  summarize(total_rides = n()) %>%
+  ungroup() %>%
+  mutate(day_of_week = factor(day_of_week, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))
+
+# Calculate average ride length by day of the week and member type
+avg_ride_length_by_day <- bike_data %>%
+  group_by(day_of_week, member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length)) %>%
+  ungroup() %>%
+  mutate(day_of_week = factor(day_of_week, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")))
+
+# Calculate average ride length by month and member type
+avg_ride_length_by_month <- bike_data %>%
+  group_by(month, member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length)) %>%
+  ungroup() %>%
+  mutate(month = factor(month, levels = month.abb))
+
+# 2. Save data for Excel/Tableau 
+# (Optional: Save the summarized data for easier import into Excel/Tableau)
+
+write.csv(total_rides_by_member, "total_rides_by_member.csv", row.names = FALSE)
+write.csv(avg_ride_length_by_member, "avg_ride_length_by_member.csv", row.names = FALSE)
+write.csv(ride_freq_by_day, "ride_freq_by_day.csv", row.names = FALSE)
+write.csv(avg_ride_length_by_day, "avg_ride_length_by_day.csv", row.names = FALSE)
+write.csv(avg_ride_length_by_month, "avg_ride_length_by_month.csv", row.names = FALSE)
+
+# 3. Create and Display Charts (using ggplot2)
+
+# Total Rides by Member Type
+p1 <- ggplot(total_rides_by_member, aes(x = member_casual, y = total_rides, fill = member_casual)) +
+  geom_col() +
+  labs(title = "Total Rides by Member Type",
+       x = "Member Type",
+       y = "Number of Rides") +
+  theme_bw()
+print(p1) 
+
+# Average Ride Length by Member Type
+p2 <- ggplot(avg_ride_length_by_member, aes(x = member_casual, y = avg_ride_length, fill = member_casual)) +
+  geom_col() +
+  labs(title = "Average Ride Length by Member Type",
+       x = "Member Type",
+       y = "Average Ride Length (seconds)") +
+  theme_bw()
+print(p2)
+
+# Ride Frequency by Day of Week
+p3 <- ggplot(ride_freq_by_day, aes(x = day_of_week, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Ride Frequency by Day of the Week",
+       x = "Day of the Week",
+       y = "Number of Rides") +
+  theme_bw()
+print(p3)
+
+# Average Ride Length by Day of Week
+p4 <- ggplot(avg_ride_length_by_day, aes(x = day_of_week, y = avg_ride_length, color = member_casual, group = member_casual)) +
+  geom_line() +
+  labs(title = "Average Ride Length by Day of the Week",
+       x = "Day of the Week",
+       y = "Average Ride Length (seconds)") +
+  theme_bw()
+print(p4)
+
+# Average Ride Length by Month
+p5 <- ggplot(avg_ride_length_by_month, aes(x = month, y = avg_ride_length, color = member_casual, group = member_casual)) +
+  geom_line() +
+  labs(title = "Average Ride Length by Month",
+       x = "Month",
+       y = "Average Ride Length (seconds)") +
+  theme_bw()
+print(p5)
+
+# 4. Tableau Visualizations (Example Links)
+
+# * Average Ride Length vs Days of the Week for Casual and Member Riders (Oct 2023 - Apr 2024)
+#   * Link: https://public.tableau.com/views/AverageRideLengthvsDaysoftheweekforCasualandMemberRidersOct2023-Apr2024/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+
+# * Cyclistic Bike-Sharing Trends: Total Rides, Days of the Week vs. Months
+#   * Link 1: https://www.tableau.com/cycling-data-visualization-gallery 
+#   * Link 2: https://public.tableau.com/views/CyclisticBike-SharingAverageRideLengthmembersAverageRideLengthcasualfor7months/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link 
+#   * Link 3: https://public.tableau.com/views/AverageRideLengthvsDaysoftheweekforCasualandMemberRidersOct2023-Apr2024/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link 
+#   * Link 4: https://public.tableau.com/views/CyclisticBike-SharingTrendsTotalRidesDaysoftheweekvsMonths/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link 
