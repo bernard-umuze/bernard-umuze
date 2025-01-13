@@ -10,6 +10,7 @@ This repository showcases my data analysis skills and experience through various
 **Cyclistic Bike-Share: Analyzing User Behavior for Increased Membership Strategies.**
 **Project Description:**
 This project analyzes historical bike trip data from Cyclistic, a Chicago-based bike-share program, to understand the distinct riding patterns of annual members and casual riders. By identifying key differences in user behavior, this analysis aims to inform the development of targeted marketing strategies to convert casual riders into annual members, ultimately driving revenue growth for Cyclistic.
+
 **Methodology Used:**
 ## Data Acquisition:
     * **Source:** Cyclistic bike-share company's publicly available dataset 
