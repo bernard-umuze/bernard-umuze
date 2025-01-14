@@ -1,13 +1,17 @@
 # Data Analysis Portfolio: Bernard Umuze
 
 This repository showcases my data analysis skills and experience through various projects. Each project demonstrates my ability to:
+
 **Collect and Clean Data:** Source and extract data from diverse formats, apply data cleaning techniques to ensure accuracy and consistency.
+
 **Perform Exploratory Data Analysis (EDA):** Conduct in-depth analysis to uncover trends, patterns, and relationships within the data.
+
 **Data Visualization:** Create compelling visualizations (charts, graphs, dashboards) to effectively communicate insights.
+
 **Actionable Recommendations:** Translate data-driven insights into actionable recommendations for business stakeholders.
 
-## Project ##
-**Cyclistic Bike-Share: Analyzing User Behavior for Increased Membership Strategies.**
+## Project 1- **Cyclistic Bike-Share: Analyzing User Behavior for Increased Membership Strategies.** ##
+
 **Project Description:**
 This project analyzes historical bike trip data from Cyclistic, a Chicago-based bike-share program, to understand the distinct riding patterns of annual members and casual riders. By identifying key differences in user behavior, this analysis aims to inform the development of targeted marketing strategies to convert casual riders into annual members, ultimately driving revenue growth for Cyclistic.
 
