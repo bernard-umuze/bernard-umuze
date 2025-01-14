@@ -10,8 +10,8 @@ This repository showcases my data analysis skills and experience through various
 
 **Actionable Recommendations:** Translate data-driven insights into actionable recommendations for business stakeholders.
 
-## Project 1 ##
-**Cyclistic Bike-Share: Analyzing User Behavior for Increased Membership Strategies.**
+## Project 1- **Cyclistic Bike-Share: Analyzing User Behavior for Increased Membership Strategies.** ##
+
 **Project Description:**
 This project analyzes historical bike trip data from Cyclistic, a Chicago-based bike-share program, to understand the distinct riding patterns of annual members and casual riders. By identifying key differences in user behavior, this analysis aims to inform the development of targeted marketing strategies to convert casual riders into annual members, ultimately driving revenue growth for Cyclistic.
 
